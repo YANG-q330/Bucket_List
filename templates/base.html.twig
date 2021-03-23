@@ -8,13 +8,13 @@
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         {# Google font Poppins #}
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" >
         {# le favicon #}
         <link rel="icon" href="{{ asset('img/favicon.png') }}">
     </head>
 
     <body>
-    <nav class="navbar is-info content" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-success content" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <h1><a class="navbar-item" href="{{ path('main_home')}}">
                 <img src="{{asset('img/logo.png')  }}" > Bucket-List </a>
@@ -28,13 +28,13 @@
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
                 <a class="navbar-item" href="{{ path('main_home')}}">
-                    Accueil
+                    Home
                 </a>
-                <a class="navbar-item" href="{{ path('main_aboutUs')}}">
-                    A propos de nous
+                <a class="navbar-item" href="{{ path('main_about_us')}}">
+                    About us
                 </a>
                 <a class="navbar-item" href="{{ path('wish_list')}}">
-                    Liste des idées
+                    Wish list
                 </a>
 
             </div>
@@ -42,12 +42,10 @@
         <div>
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <div class="buttons">
-                        <a class="button is-light">
-                            <strong>Inscription</strong>
-                        </a>
-                        <a class="button is-light">
-                            Connexion
+                    <div class="icon-account">
+                        <a>
+                        <strong>Log In</strong>
+                        <img class="" width="50" height="50" src="https://static-cdn.drawnames.com/Content/Assets/icon-account-inactive.svg?nc=201911111111" alt="Mon compte">
                         </a>
                     </div>
                 </div>
