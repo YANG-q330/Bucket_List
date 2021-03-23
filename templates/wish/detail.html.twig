@@ -6,10 +6,10 @@
     <div class="container">
         <h2>Wish detail </h2>
         <div>
-            <strong>{{ wish.titre }}</strong><br>
-            {{ wish.description }}<br><br>
-            Author : {{ wish.author }}<br>
-            Published at : {{ wish.dateCreated|date("d/m/Y à H:i") }}
+            <p><strong>{{ wish.titre }}</strong></p>
+            <p>{{ wish.description }}</p>
+            <p>Author : {{ wish.author }}</p>
+            <p>Published at : {{ wish.dateCreated|date("d/m/Y à H:i") }}</p>
         </div>
 
     </div>
