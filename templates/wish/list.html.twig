@@ -4,12 +4,17 @@
 
 {% block body %}
     <div class="container">
+        <h2>All wishes</h2>
+        {% for wish in wishes %}
+            <div>
+                <ul>
+                    <li><a href="{{ path('wish_detail',{id: wish.id}) }}">{{wish.titre}}</a></li>
+                    <div>Published at {{ wish.dateCreated |date("d/m/Y à H:i") }}</div>
+                </ul>
+            </div>
 
-        <ul>
-            <li>wish 1 </li>
-            <li>wish 2 </li>
-            <li>wish 3 </li>
-        </ul>
+        {% endfor %}
+
     </div>
 {% endblock %}
 
