@@ -47,4 +47,36 @@ class WishRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @return array
+     */
+    public function findWishList($page):array
+    {
+      $queryBuilder = $this->createQueryBuilder('w');
+      //Requête pour récupérer le nombre total des wishes
+      $queryBuilder->select("COUNT(w)");
+      $countQuery = $queryBuilder->getQuery();
+      $totalResultCount = $countQuery->getSingleScalarResult();
+      //2e requête pour récupérer la liste des wishes
+      $queryBuilder->select("w");
+      $queryBuilder->andWhere('w.isPublished = true');
+      $queryBuilder->andWhere('w.likes>300');
+      $queryBuilder->orderBy('w.dateCreated', 'DESC');
+      //Offset
+      $offset = ($page-1)*20;
+      $queryBuilder->setFirstResult($offset);
+      $query = $queryBuilder->getQuery();
+      $result = $query->getResult();
+      //Retourne 2 résultats dans le tableau
+      return [
+          "result" =>$result,
+          "totalResultCount"=>$totalResultCount
+      ];
+
+
+
+
+
+
+    }
 }

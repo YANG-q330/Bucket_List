@@ -4,17 +4,27 @@
 
 {% block body %}
     <div class="container">
-        <h2>All wishes</h2>
+        <h2>All wishes #{{ currentPage }}</h2>
+
+        {% if currentPage >1 %}
+            <a href="{{  path('wish_list',{'page': currentPage-1}) }}" >Previous page</a>
+        {% endif %}
+
+        {% if (currentPage *20) < totalResultCount %}
+            <a href="{{  path('wish_list',{'page': currentPage+1}) }}" >Next page</a>
+        {% endif %}
+
         {% for wish in wishes %}
             <div>
                 <ul>
-                    <li><a href="{{ path('wish_detail',{id: wish.id}) }}">{{wish.titre}}</a></li>
-                    <div>Published at {{ wish.dateCreated |date("d/m/Y à H:i") }}</div>
+                    <li><a href="{{ path('wish_detail',{'id': wish.id}) }}">{{wish.title}}</a></li>
+                    <div> Published at {{ wish.dateCreated |date("d/m/Y à H:i") }}</div>
                 </ul>
             </div>
         {% else %}
             <div>Nothing to see here! </div>
         {% endfor %}
+
 
     </div>
 {% endblock %}

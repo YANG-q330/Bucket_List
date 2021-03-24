@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\WishRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=WishRepository::class)
+ * @UniqueEntity(fields={"title"}, message="This title has already existed !")
  */
 class Wish
 {
@@ -19,42 +22,50 @@ class Wish
 
     /**
      * @ORM\Column(type="string", length=250)
+     * @Assert\NotBlank(message="The title is required !")
      */
-    private $titre;
+    private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank(message="The description is required !")
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="The author is required !")
      */
     private $author;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true, options={"default":true})
      */
-    private $isPublished;
+    private $isPublished = true;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateCreated;
 
+    /**
+     * @ORM\Column(type="integer",options={"default":0})
+     */
+    private $likes=0;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitre(): ?string
+    public function getTitle(): ?string
     {
-        return $this->titre;
+        return $this->title;
     }
 
-    public function setTitre(string $titre): self
+    public function setTitle(string $title): self
     {
-        $this->titre = $titre;
+        $this->title = $title;
 
         return $this;
     }
@@ -103,6 +114,18 @@ class Wish
     public function setDateCreated(?\DateTimeInterface $dateCreated): self
     {
         $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    public function getLikes(): ?int
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(int $likes): self
+    {
+        $this->likes = $likes;
 
         return $this;
     }

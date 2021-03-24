@@ -2,13 +2,15 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>{% block title %}Bucket-List{% endblock %}</title>
         {# Les CSS #}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
         {# Google font Poppins #}
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" >
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" >
         {# le favicon #}
         <link rel="icon" href="{{ asset('img/favicon.png') }}">
     </head>
@@ -36,6 +38,9 @@
                 <a class="navbar-item" href="{{ path('wish_list')}}">
                     Wish list
                 </a>
+                <a class="navbar-item" href="{{ path('wish_new')}}">
+                    Add a wish
+                </a>
 
             </div>
         </div>
@@ -55,10 +60,19 @@
     <div class="container content">
         {% block body %}{% endblock %}
     </div>
+    <div class="container content">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} message-header">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
     </body>
 
     <footer class="footer">
-        <div class="content has-text-centered">
+        <div class="has-text-centered">
             &copy;Bucket-List  {{ "now"|date("Y") }}
         </div>
     </footer>

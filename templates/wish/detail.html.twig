@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ wish.titre }}|{{ parent() }}{% endblock %}
+{% block title %}{{ wish.title }}|{{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h2>{{ wish.titre }}</h2>
+        <h2>{{ wish.title }}</h2>
         <div>
             <p>{{ wish.description }}</p>
             <p>Author : {{ wish.author }}</p>
