@@ -12,7 +12,8 @@
                     <div>Published at {{ wish.dateCreated |date("d/m/Y à H:i") }}</div>
                 </ul>
             </div>
-
+        {% else %}
+            <div>Nothing to see here! </div>
         {% endfor %}
 
     </div>
