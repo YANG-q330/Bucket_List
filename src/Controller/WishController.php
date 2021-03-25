@@ -45,18 +45,22 @@ class WishController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager):Response
     {
-        //Couplage du formulaire et l'entity
+        //Crée un wish vide pour que Symfony puisse y injecter les données, pouvoir récupérer un wish de BDD et le modifier dans le formulaire
         $wish = new Wish();
+        //Crée le formulaire
         $wishForm = $this->createForm(WishType::class, $wish);
-        //Injection
+        //Récupère les données soumises
         $wishForm->handleRequest($request);
         //Vérifier si le formulaire a été bien soumis et valide
         if($wishForm->isSubmitted() && $wishForm->isValid()){
+            //Hydrate les propriétés manquantes
+            $wish->setLikes(0);
             $wish->setDateCreated(new \DateTime());
+            $wish->setIsPublished(true);
         //Sauvegarder dans le BDD
         $entityManager->persist($wish);
         $entityManager->flush();
-        //Gérer les flash message
+        //Gérer les flash messages sur la prochaine page
         $this->addFlash("success", "Idea successfully added!");
         //Redirection
         return $this->redirectToRoute("wish_detail",['id'=>$wish->getId()]);

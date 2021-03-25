@@ -15,10 +15,15 @@ class WishType extends AbstractType
     {
         $builder
             ->add('title', TextType::class,[
-                'label'=> 'Title','required'=>true
+                'label'=> 'Your wish','required'=>true
             ])
-            ->add('description', TextareaType::class)
-            ->add('author',TextType::class)
+            ->add('description', TextareaType::class,[
+                'label'=> 'Describe it a little more'
+                ])
+
+            ->add('author',TextType::class,[
+                'label'=> 'Who are you?'
+            ])
         ;
     }
 

@@ -2,9 +2,9 @@ html{
     font-family: 'Poppins', sans-serif;
 }
 footer{
-    padding: 2rem 0;
+    position: absolute;
+    bottom: 0;
     text-align: center;
-    background-color: red;
 }
 input, textarea{
     box-sizing:border-box;
