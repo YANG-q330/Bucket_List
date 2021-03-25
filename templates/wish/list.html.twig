@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container">
         <h2>All wishes #{{ currentPage }}</h2>
-
+        <div id="page" >
         {% if currentPage >1 %}
             <a href="{{  path('wish_list',{'page': currentPage-1}) }}" >Previous page</a>
         {% endif %}
@@ -13,7 +13,7 @@
         {% if (currentPage *20) < totalResultCount %}
             <a href="{{  path('wish_list',{'page': currentPage+1}) }}" >Next page</a>
         {% endif %}
-
+        </div>
         {% for wish in wishes %}
             <div>
                 <ul>

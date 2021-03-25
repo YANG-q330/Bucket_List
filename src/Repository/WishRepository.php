@@ -61,6 +61,7 @@ class WishRepository extends ServiceEntityRepository
       $queryBuilder->select("w");
       $queryBuilder->andWhere('w.isPublished = true');
       $queryBuilder->andWhere('w.likes>300');
+      $queryBuilder->setMaxResults(10);
       $queryBuilder->orderBy('w.dateCreated', 'DESC');
       //Offset
       $offset = ($page-1)*20;

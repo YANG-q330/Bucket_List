@@ -8,6 +8,11 @@
         <div>
             <p>{{ wish.description }}</p>
             <p>Author : {{ wish.author }}</p>
+            <p>
+                {% for category in wish.category %}
+                {{ category.name }}
+                {% endfor %}
+            </p>
             <p>Published at : {{ wish.dateCreated|date("d/m/Y à H:i") }}</p>
         </div>
 
