@@ -19,18 +19,7 @@ class ReactionRepository extends ServiceEntityRepository
         parent::__construct($registry, Reaction::class);
     }
 
-    public function findReactionListByWishId($id):array
-    {
-        $queryBuilder = $this->createQueryBuilder('r');
-        $queryBuilder->select('r')
-                     ->join('r.wish','w')
-                     ->andWhere('w.id = :id')
-                     ->setParameter(':id',$id)
-                     ->setMaxResults(8)
-                     ->orderBy('r.dateCreated','DESC');
-        $query= $queryBuilder->getQuery();
-        return $query->getResult();
-    }
+
 
     // /**
     //  * @return Reaction[] Returns an array of Reaction objects

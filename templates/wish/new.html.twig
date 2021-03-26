@@ -5,17 +5,23 @@
 {% block body %}
     <div class="container ">
         <h2>Add a wish</h2>
-        {{ form_start(wishForm) }}
-        {{ form_widget(wishForm) }}
-        <div class="field is-grouped">
-            <div class="control">
-                <button class="button is-success">Submit</button>
+        {{form_start(wishForm) }}
+            {{form_row(wishForm.title) }}
+            {{form_row(wishForm.description) }}
+            {% if(app.user) %}
+                {{form_row(app.user.username) }}
+            {% else %}
+                {{form_row(wishForm.author) }}
+            {% endif %}
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-success">Submit</button>
+                </div>
+                <div class="control">
+                    <button class="button is-link is-light">Cancel</button>
+                </div>
             </div>
-            <div class="control">
-                <button class="button is-link is-light">Cancel</button>
-            </div>
-        </div>
-        {{ form_end(wishForm) }}
+        {{form_end(wishForm) }}
     </div>
 {% endblock %}
 

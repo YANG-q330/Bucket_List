@@ -35,24 +35,33 @@
                 <a class="navbar-item" href="{{ path('main_about_us')}}">
                     About us
                 </a>
+                {% if(app.user) %}
                 <a class="navbar-item" href="{{ path('wish_list')}}">
                     Wish list
                 </a>
                 <a class="navbar-item" href="{{ path('wish_new')}}">
                     Add a wish
                 </a>
-
+                {% endif %}
             </div>
         </div>
         <div>
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <div class="icon-account">
-                        <a>
-                        <strong>Log In</strong>
-                        <img class="" width="50" height="50" src="https://static-cdn.drawnames.com/Content/Assets/icon-account-inactive.svg?nc=201911111111" alt="Mon compte">
-                        </a>
-                    </div>
+                    {% if(app.user) %}
+                        <p> Hello {{ app.user.username }}!</p>
+                        <div class="logout">
+                            <a href="{{ path('app_logout')}}"> <button class="button is-link is-rounded" type="submit"> Log out </button> </a>
+                        </div>
+
+                    {% else %}
+                        <div class="register">
+                            <a href="{{ path('app_register')}}"> <button class="button is-link is-rounded" type="submit"> Register </button> </a>
+                        </div>
+                        <div class="login">
+                            <a href="{{ path('app_login')}}"> <button class="button is-link is-rounded" type="submit"> Log in </button> </a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

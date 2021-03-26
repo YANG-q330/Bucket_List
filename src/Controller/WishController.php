@@ -41,7 +41,7 @@ class WishController extends AbstractController
             throw $this->createNotFoundException('This wish don\'t exist!');
         }
         //Afficher les réactions d'un wish
-        $reactions = $reactionRepository->findReactionListByWishId($id);
+        $reactions = $reactionRepository->findBy(["wish"=>$wish], ["dateCreated"=>"DESC"], 10);
 
         //Créer une réaction vide
         $reaction = new Reaction();
@@ -53,7 +53,7 @@ class WishController extends AbstractController
         if($reactionForm->isSubmitted()&&$reactionForm->isValid()){
             //Hydrate les données manquantes
             $reaction->setDateCreated(new \DateTime());
-            $reaction->setWish($wish);
+            $reaction->setWish($wish);//créer la relation entre reaction et wish
             //Sauvegarder dans le BDD
             $entityManager->persist($reaction);
             $entityManager->flush();
