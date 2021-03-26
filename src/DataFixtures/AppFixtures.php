@@ -11,6 +11,9 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        //Créer notre faker pour générer de belles données aléatoires
+        $faker = \Faker\Factory::create("fr_FR");
+
         //Gérer les catégories
         $categories =[
             "Travel&Adventure",
@@ -28,8 +31,6 @@ class AppFixtures extends Fixture
         }
         $manager->flush();
 
-        //Créer notre faker pour générer de belles données aléatoires
-        $faker = \Faker\Factory::create("fr_FR");
         for ($i = 0; $i<200; $i++)  {
             //Créer un wish vide
             $wish = new Wish();

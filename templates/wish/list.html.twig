@@ -15,9 +15,9 @@
         {% endif %}
         </div>
         {% for wish in wishes %}
-            <div>
+            <div class="media">
                 <ul>
-                    <li><a href="{{ path('wish_detail',{'id': wish.id}) }}">{{wish.title}}</a></li>
+                    <li><a href="{{ path('wish_detail',{'id': wish.id}) }}">{{wish.title}}[{{ wish.category.name }}]</a></li>
                     <div> Published at {{ wish.dateCreated |date("d/m/Y à H:i") }}</div>
                 </ul>
             </div>

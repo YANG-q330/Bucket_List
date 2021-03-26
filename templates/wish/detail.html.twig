@@ -4,18 +4,50 @@
 
 {% block body %}
     <div class="container">
-        <h2>{{ wish.title }}</h2>
-        <div>
-            <p>{{ wish.description }}</p>
-            <p>Author : {{ wish.author }}</p>
-            <p>
-                {% for category in wish.category %}
-                {{ category.name }}
+        <div class="columns">
+            <div class="column is-half">
+                <h2>{{ wish.title }}</h2>
+                <div>Categorized in : {{ wish.category.name }}</div>
+                <div>
+                    <p>{{ wish.description }}</p>
+                    <p>Author : {{ wish.author }}</p>
+                    <p>
+                        {% for category in wish.category %}
+                        {{ category.name }}
+                        {% endfor %}
+                    </p>
+                    <p>Published at : {{ wish.dateCreated|date("d/m/Y à H:i") }}</p>
+                </div>
+            </div>
+            <div class="column is-half box">
+                <h2>Reactions about this wish</h2>
+                {% for reaction in reactions %}
+                    <div>
+                        <ul>
+                            <li><a href="{{ path('wish_detail',{'id': wish.id}) }}">{{reaction.message}}[By {{ reaction.username}}]</a></li>
+                            <div> Published at {{ reaction.dateCreated |date("d/m/Y à H:i") }}</div>
+                        </ul>
+                    </div>
+                {% else %}
+                    <div>Nothing to see here! </div>
                 {% endfor %}
-            </p>
-            <p>Published at : {{ wish.dateCreated|date("d/m/Y à H:i") }}</p>
+            </div>
+        </div>
+            <div class="container box">
+                <h2>Add a reaction</h2>
+                {{ form_start(reactionForm) }}
+                {{ form_widget(reactionForm) }}
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button class="button is-success">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-link is-light">Cancel</button>
+                    </div>
+                </div>
+                {{ form_end(reactionForm) }}
+            </div>
         </div>
 
-    </div>
 {% endblock %}
 

@@ -60,24 +60,24 @@ class WishRepository extends ServiceEntityRepository
       //2e requête pour récupérer la liste des wishes
       $queryBuilder->select("w");
       $queryBuilder->andWhere('w.isPublished = true');
+      //Ajouter une jointure à notre requête pour éviter les multiples requêtes SQL réalisées par Doctrine
+      $queryBuilder->leftJoin('w.category','c')->addSelect('c');
       $queryBuilder->andWhere('w.likes>300');
-      $queryBuilder->setMaxResults(10);
+      $queryBuilder->setMaxResults(8);
       $queryBuilder->orderBy('w.dateCreated', 'DESC');
       //Offset
       $offset = ($page-1)*20;
       $queryBuilder->setFirstResult($offset);
       $query = $queryBuilder->getQuery();
       $result = $query->getResult();
+      //Pour corriger les éventuels problèmes de comptage de résultats
+      //$paginator = new Paginator($query);
       //Retourne 2 résultats dans le tableau
       return [
           "result" =>$result,
           "totalResultCount"=>$totalResultCount
       ];
-
-
-
-
-
-
     }
+
+
 }

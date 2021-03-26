@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Reaction;
 use App\Entity\Wish;
+use App\Form\ReactionType;
 use App\Form\WishType;
+use App\Repository\ReactionRepository;
 use App\Repository\WishRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,13 +34,35 @@ class WishController extends AbstractController
     /**
      * @Route("/wish/{id}", name="wish_detail", requirements={"id": "\d+"})
      */
-    public function detail($id, WishRepository $wishRepository): Response
+    public function detail($id,Request $request,WishRepository $wishRepository,ReactionRepository $reactionRepository,EntityManagerInterface $entityManager): Response
     {
         $wish = $wishRepository->find($id);
         if(!$wish){
             throw $this->createNotFoundException('This wish don\'t exist!');
         }
-        return $this->render('wish/detail.html.twig', ["wish" =>$wish]);
+        //Afficher les réactions d'un wish
+        $reactions = $reactionRepository->findReactionListByWishId($id);
+
+        //Créer une réaction vide
+        $reaction = new Reaction();
+        //Créer le formulaire
+        $reactionForm = $this->createForm(ReactionType::class,$reaction);
+        //Récupérer les données soumises
+        $reactionForm->handleRequest($request);
+        //Vérifier si le formulaire a été bien soumis et valide
+        if($reactionForm->isSubmitted()&&$reactionForm->isValid()){
+            //Hydrate les données manquantes
+            $reaction->setDateCreated(new \DateTime());
+            $reaction->setWish($wish);
+            //Sauvegarder dans le BDD
+            $entityManager->persist($reaction);
+            $entityManager->flush();
+            //Gérer les falsh messages
+            $this->addFlash('success', "Thank you for your reaction !");
+            //Redirection
+            return $this->redirectToRoute("wish_detail", ['id'=>$wish->getId()]);
+        }
+        return $this->render('wish/detail.html.twig', ["wish" =>$wish, "reactions"=>$reactions,"reactionForm"=>$reactionForm->createView()]);
     }
 
     /**
@@ -57,16 +82,18 @@ class WishController extends AbstractController
             $wish->setLikes(0);
             $wish->setDateCreated(new \DateTime());
             $wish->setIsPublished(true);
-        //Sauvegarder dans le BDD
-        $entityManager->persist($wish);
-        $entityManager->flush();
-        //Gérer les flash messages sur la prochaine page
-        $this->addFlash("success", "Idea successfully added!");
-        //Redirection
-        return $this->redirectToRoute("wish_detail",['id'=>$wish->getId()]);
+            //Sauvegarder dans le BDD
+            $entityManager->persist($wish);
+            $entityManager->flush();
+            //Gérer les flash messages sur la prochaine page
+            $this->addFlash("success", "Idea successfully added!");
+            //Redirection
+            return $this->redirectToRoute("wish_detail",['id'=>$wish->getId()]);
         }
         return $this->render("wish/new.html.twig",[
             "wishForm" =>$wishForm->createView()
         ]);
     }
+
+
 }
