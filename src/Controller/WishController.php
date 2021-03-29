@@ -72,6 +72,9 @@ class WishController extends AbstractController
     {
         //Crée un wish vide pour que Symfony puisse y injecter les données, pouvoir récupérer un wish de BDD et le modifier dans le formulaire
         $wish = new Wish();
+        if($this->getUser()){
+            $wish->setAuthor($this->getUser()->getUsername());
+        }
         //Crée le formulaire
         $wishForm = $this->createForm(WishType::class, $wish);
         //Récupère les données soumises
@@ -94,6 +97,4 @@ class WishController extends AbstractController
             "wishForm" =>$wishForm->createView()
         ]);
     }
-
-
 }
