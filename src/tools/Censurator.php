@@ -4,26 +4,25 @@
 namespace App\tools;
 
 
-use App\Entity\BadWord;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\BadWordRepository;
+
 
 class Censurator
 {
     /**
-     * @var EntityManagerInterface
+     * @var BadWordRepository
      */
-    private $entityManager;
-    public function __construct(EntityManagerInterface $entityManager){
-        $this->entityManager = $entityManager;
+    private $badWordRepository;
+
+    public function __construct(BadWordRepository $badWordRepository){
+        $this->badWordRepository = $badWordRepository;
     }
     public function purify ($string){
-        $badWordRepository = $this->entityManager->getRepository(BadWord::class);
-        $listBadWord = $badWordRepository->findAll();
+        $listBadWord = $this->badWordRepository->findAll();
         foreach ($listBadWord as $value){
-            if (strpos($string, $value->getWord())){
-                $wordReplaced = str_repeat("*",mb_strlen($value->getWord()));
-                $string = str_ireplace($value->getWord(),$wordReplaced,$string);
-            }
+            $badWord = $value->getWord();
+            $wordReplaced = mb_substr($badWord,0,1).str_repeat("*",mb_strlen($badWord)-1);
+            $string = str_ireplace($badWord,$wordReplaced,$string);
         }
         return $string;
     }

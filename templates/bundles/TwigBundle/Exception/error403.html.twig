@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="alert alert-danger col-md-8 col-md-offset-2" align="center"role="alert">
+        <h1>/!\  Erreur 403  /!\</h1>
+        <h2>We are sorry...</h2>
+        <h3>You don't have permission to access this page! </h3><br>
+        <a href="{{ path('main_home') }}"><button class="button is-link">Go to homepage</button></a>
+    </div>
+{% endblock %}
