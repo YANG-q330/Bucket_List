@@ -8,6 +8,7 @@ use App\Form\ReactionType;
 use App\Form\WishType;
 use App\Repository\ReactionRepository;
 use App\Repository\WishRepository;
+use App\tools\Censurator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,13 +69,11 @@ class WishController extends AbstractController
     /**
      * @Route("/wish/new", name="wish_new")
      */
-    public function new(Request $request, EntityManagerInterface $entityManager):Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Censurator $censurator):Response
     {
         //Crée un wish vide pour que Symfony puisse y injecter les données, pouvoir récupérer un wish de BDD et le modifier dans le formulaire
         $wish = new Wish();
-        if($this->getUser()){
-            $wish->setAuthor($this->getUser()->getUsername());
-        }
+        $wish->setAuthor($this->getUser()->getUsername());
         //Crée le formulaire
         $wishForm = $this->createForm(WishType::class, $wish);
         //Récupère les données soumises
@@ -85,9 +84,13 @@ class WishController extends AbstractController
             $wish->setLikes(0);
             $wish->setDateCreated(new \DateTime());
             $wish->setIsPublished(true);
+            //Appeler censurator pour remplacer les mots censurés
+            $wish->setTitle($censurator->purify($wish->getTitle()));
+            $wish->setDescription($censurator->purify($wish->getDescription()));
             //Sauvegarder dans le BDD
             $entityManager->persist($wish);
             $entityManager->flush();
+
             //Gérer les flash messages sur la prochaine page
             $this->addFlash("success", "Idea successfully added!");
             //Redirection

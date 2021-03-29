@@ -35,13 +35,11 @@
                 <a class="navbar-item" href="{{ path('main_about_us')}}">
                     About us
                 </a>
-                {% if(app.user) %}
                 <a class="navbar-item" href="{{ path('wish_list')}}">
                     Wish list
                 </a>
-                <a class="navbar-item" href="{{ path('wish_new')}}">
-                    Add a wish
-                </a>
+                {% if(app.user) %}
+                    <a class="navbar-item" href="{{ path('wish_new')}}">Add a wish </a>
                 {% endif %}
             </div>
         </div>
@@ -49,11 +47,9 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     {% if(app.user) %}
-                        <p> Hello {{ app.user.username }}!</p>
                         <div class="logout">
-                            <a href="{{ path('app_logout')}}"> <button class="button is-link is-rounded" type="submit"> Log out </button> </a>
+                            <a href="{{ path('app_logout')}}"> <button class="button is-link is-rounded" type="submit"> Log out {{ app.user.username }}</button> </a>
                         </div>
-
                     {% else %}
                         <div class="register">
                             <a href="{{ path('app_register')}}"> <button class="button is-link is-rounded" type="submit"> Register </button> </a>
